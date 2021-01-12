@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/scss/main.scss"],"names":[],"mappings":"AAAA;EACE,YAAY;EACb,cAAc;EACb,SAAS;;AAEX;EACI,iBAAiB","file":"main.css","sourcesContent":["body{\r\n  opasity: 0.5;\r\n\tcolor: #fefefe;\r\n  margin: 0;\r\n}\r\n.autoprefixer-test {\r\n    user-select: none;\r\n}"],"sourceRoot":""}
