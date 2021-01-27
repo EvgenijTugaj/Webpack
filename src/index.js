@@ -1,2 +1,3 @@
 import './scss/main.scss'
-console.log('запуск 123')
+
+console.log('12')
