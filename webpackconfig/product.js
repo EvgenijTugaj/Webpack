@@ -4,7 +4,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
 const tailwindcss = require('tailwindcss')
 const autoprefixer = require('autoprefixer')
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
   context: PATHS.src,
@@ -33,41 +35,30 @@ module.exports = {
         ]
       },
       { 
-        test: /\.[jt]sx?$/,
+        test: /\.(js|jsx)$/, 
         exclude: /(node_modules|bower_components)/, 
-        use: [
-          {
-            loader: require.resolve('babel-loader'),
-            options: {
-              plugins: [
-                require.resolve('react-refresh/babel'),
-              ].filter(Boolean),
-            },
-          },
-        ], 
-      },
+        use: ['babel-loader'] 
+      }
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/tempate.html',
       favicon: PATHS.src + '/assets/icons/favicon.png',
       filename: 'index.html',
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css'
-    }),
-    new webpack.SourceMapDevToolPlugin({
-      filename: '[file].map'
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new ReactRefreshWebpackPlugin()
+      filename: 'styles/[name].css'
+    })
   ],
-  devServer: {
-    contentBase: PATHS.src,
-    open: true,
-    compress: true,
-    hot: true,
-    port: 8080,
-  }
+  optimization: {
+    minimize: true,
+    minimizer: [new OptimizeCssAssetsPlugin(), new TerserPlugin()]
+  },
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
+  },
 }
